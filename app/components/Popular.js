@@ -1,6 +1,4 @@
 var React = require('react');
-require('../index.css');
-
 var PropTypes = require('prop-types');
 
 function SelectLanguage(props) {
