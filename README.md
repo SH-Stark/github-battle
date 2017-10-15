@@ -6,3 +6,5 @@ Compare two developers in Github according to their stars! Check also the most p
 npm install
 npm run start
 ```
+
+The game is deployed [here](https://github-rank-battle.firebaseapp.com)
