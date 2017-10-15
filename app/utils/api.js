@@ -30,7 +30,7 @@ function getStarCount(repos) {
 function calculateScore(profile, repos) {
 	var followers = profile.followers;
 	var totalStars = getStarCount(repos);
-	return followers * 3 + stars;
+	return followers * 3 + totalStars;
 }
 
 function handleError(error) {
@@ -60,7 +60,7 @@ module.exports = {
 	battle: function(players) {
 		return axios
 			.all(players.map(getUserData))
-			.then(sortPlayers())
+			.then(sortPlayers)
 			.catch(handleError);
 	},
 	fetchPopularRepos: function(language) {
