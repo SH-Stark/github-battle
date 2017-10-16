@@ -81,15 +81,11 @@ class Popular extends React.Component {
 				repos: null
 			};
 		});
-		api.fetchPopularRepos(lang).then(
-			function(repos) {
-				this.setState(function() {
-					return {
-						repos: repos
-					};
-				});
-			}.bind(this)
-		);
+		api.fetchPopularRepos(lang).then(repos => {
+			this.setState(() => ({
+				repos: repos
+			}));
+		});
 	}
 	render() {
 		return (
