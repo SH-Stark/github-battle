@@ -15,13 +15,14 @@ const getRepos = username =>
 	);
 
 const getStarCount = repos => {
-	return repos.data.reduce((count, repo) => count + repo.stargazers_count, 0);
+	return repos.data.reduce(
+		(count, { stargazers_count }) => count + stargazers_count,
+		0
+	);
 };
 
-const calculateScore = (profile, repos) => {
-	var followers = profile.followers;
-	var totalStars = getStarCount(repos);
-	return followers * 3 + totalStars;
+const calculateScore = ({ followers }, repos) => {
+	return followers * 3 + getStarCount(repos);
 };
 
 const handleError = error => {
@@ -30,36 +31,30 @@ const handleError = error => {
 };
 
 const getUserData = player => {
-	return axios
-		.all([getProfile(player), getRepos(player)])
-		.then(([profile, repos]) => ({
-			profile: profile,
-			score: calculateScore(profile, repos)
-		}));
+	return Promise.all([
+		getProfile(player),
+		getRepos(player)
+	]).then(([profile, repos]) => ({
+		profile,
+		score: calculateScore(profile, repos)
+	}));
 };
 
 const sortPlayers = players => {
-	return players.sort(function(a, b) {
-		return b.score - a.score;
-	});
+	return players.sort((a, b) => b.score - a.score);
 };
 
 module.exports = {
-	battle: function(players) {
-		return axios
-			.all(players.map(getUserData))
+	battle(players) {
+		return Promise.all(players.map(getUserData))
 			.then(sortPlayers)
 			.catch(handleError);
 	},
-	fetchPopularRepos: function(language) {
-		var encodedURI = window.encodeURI(
-			'https://api.github.com/search/repositories?q=stars:>1+language:' +
-				language +
-				'&sort=stars&order=desc&type=Repositories'
+	fetchPopularRepos(language) {
+		const encodedURI = window.encodeURI(
+			`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
 		);
 
-		return axios.get(encodedURI).then(function(response) {
-			return response.data.items;
-		});
+		return axios.get(encodedURI).then(({ data }) => data.items);
 	}
 };
