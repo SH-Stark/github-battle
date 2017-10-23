@@ -10,19 +10,24 @@
 		"firebase-init": "firebase login && firebase init"
 	},
 	"babel": {
-		"presets": ["env", "react"],
-		"plugins": ["transform-class-properties"]
+		"presets": [
+			"env",
+			"react"
+		],
+		"plugins": [
+			"transform-class-properties"
+		]
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"axios": "^0.16.2",
 		"babel-polyfill": "^6.26.0",
 		"prop-types": "^15.6.0",
 		"query-string": "^5.0.0",
 		"react": "^16.0.0",
 		"react-dom": "^16.0.0",
-		"react-router-dom": "^4.2.2"
+		"react-router-dom": "^4.2.2",
+		"whatwg-fetch": "^2.0.3"
 	},
 	"devDependencies": {
 		"babel-core": "^6.26.0",
